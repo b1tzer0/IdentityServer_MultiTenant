@@ -1,0 +1,77 @@
+﻿// Viewport Segments
+// Double Portrait
+$vps-portrait-hinge-left: env(viewport-segment-right 0 0);
+$vps-portrait-hinge-right: env(viewport-segment-left 1 0);
+$vps-portrait-hinge-width: calc(env(viewport-segment-left 1 0) - env(viewport-segment-right 0 0));
+
+/* Double Landscape */
+$vps-landscape-hinge-top: env(viewport-segment-bottom 0 0);
+$vps-landscape-hinge-bottom: env(viewport-segment-top 0 1);
+$vps-landscape-hinge-height: calc(env(viewport-segment-top 0 1) - env(viewport-segment-bottom 0 0));
+
+// Font Sizes
+$font-size-default: 18px;
+$font-size-large: 20px;
+$font-size-xtra-large: 24px;
+$font-size-xtra-xtra-large: 32px;
+$font-size-small: 16px;
+$font-size-xtra-small: 14px;
+$font-size-xtra-xtra-small: 12px;
+
+$font-color: rgb(83,113,128);
+
+// Borders
+$border-default: 1px var(--bs-secondary) solid;
+
+// Grid breakpoints
+//
+// Define the minimum dimensions at which your layout will change,
+// adapting to different screen sizes, for use in media queries.
+$grid-breakpoints: ( xs: 0px, 
+    sm: 576px, 
+    md: 768px, 
+    lg: 992px, 
+    xl: 1200px, 
+    xxl: 1400px 
+);
+
+$media-spans:(
+    sfv: 'single-fold-vertical',
+    sfh: 'single-fold-horizontal',
+    none: 'none'
+    );
+$span-vars:(
+    ft: fold-top,
+    fr: fold-right,
+    fb: fold-bottom,
+    fl: fold-left,
+    fw: fold-width,
+    fh: fold-height
+    );
+
+// border-radius-variables
+$border-radius: .25rem !default;
+$border-radius-sm: .2rem !default;
+$border-radius-lg: .3rem !default;
+$border-radius-pill: 50rem !default;
+
+// Elevation Depth (Fluent Guidelines) https://github.com/OfficeDev/office-ui-fabric-react/blob/master/packages/fluent-theme/src/fluent/FluentDepths.ts
+// Usage: Cards and Grid Item thumbnails
+$elevation-depth-4: 0 1.6px 3.6px 0 rgba(0, 0, 0, 0.132), 0 0.3px 0.9px 0 rgba(0, 0, 0, 0.108);
+// Usage: Command bars, Command Dropdowns, and Context menus
+$elevation-depth-8: 0 3.2px 7.2px 0 rgba(0, 0, 0, 0.132), 0 0.6px 1.8px 0 rgba(0, 0, 0, 0.108);
+// Usage: Teaching callouts, search results dropdowns, hover cards, tooltips
+$elevation-depth-16: 0 6.4px 14.4px 0 rgba(0, 0, 0, 0.132), 0 1.2px 3.6px 0 rgba(0, 0, 0, 0.108);
+// Usage: Popup Dialogs
+$elevation-depth-64: 0 25.6px 57.6px 0 rgba(0, 0, 0, 0.22), 0 4.8px 14.4px 0 rgba(0, 0, 0, 0.18);
+
+$elevation-depth-4-reverse: inset 0 1.6px 3.6px 0 rgba(0, 0, 0, 0.132), 0 0.3px 0.9px 0 rgba(0, 0, 0, 0.108);
+$elevation-depth-8-reverse: inset 0 3.2px 7.2px 0 rgba(0, 0, 0, 0.132), 0 0.6px 1.8px 0 rgba(0, 0, 0, 0.108);
+$elevation-depth-16-reverse: inset 0 6.4px 14.4px 0 rgba(0, 0, 0, 0.132), 0 1.2px 3.6px 0 rgba(0, 0, 0, 0.108);
+$elevation-depth-64-reverse: inset 0 25.6px 57.6px 0 rgba(0, 0, 0, 0.22), 0 4.8px 14.4px 0 rgba(0, 0, 0, 0.18);
+
+// Common Properties
+//@box-shadow: 4px 4px 8px 0px rgba(0,0,0,0.5), 0px 6px 20px 0px rgba(0,0,0,0.5);
+$box-shadow: $elevation-depth-8;
+$fade-line: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1.0), rgba(0, 0, 0, 0));
+$top-row-height: 4.5rem;

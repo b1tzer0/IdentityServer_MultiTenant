@@ -1,0 +1,14 @@
+﻿@import "../_variables.scss";
+
+@mixin add-box-shadow($elevation-depth-level: $elevation-depth-8) {
+    -moz-box-shadow: $elevation-depth-level;
+    -webkit-box-shadow: $elevation-depth-level;
+    box-shadow: $elevation-depth-level;
+}
+
+@mixin add-box-shadow-transition() {
+    -moz-transition: box-shadow 200ms ease-in-out;
+    -o-transition: box-shadow 200ms ease-in-out;
+    -webkit-transition: box-shadow 200ms ease-in-out;
+    transition: box-shadow 200ms ease-in-out;
+}
