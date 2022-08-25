@@ -3,6 +3,7 @@
     "SelfHost": {
       "commandName": "Project",
       "launchBrowser": true,
+      "launchUrl": "https://localhost:5001/tenant-1",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

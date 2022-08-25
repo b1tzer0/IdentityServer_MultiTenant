@@ -1,3 +1,4 @@
+using Finbuckle.MultiTenant;
 using idpMultiTenant1.Pages;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,10 @@ namespace idpMultiTenant1.Areas.Identity.Pages.Account
         [BindProperty(SupportsGet = true)]
         public string? ReturnUrl { get; set; }
 
+        public string TenantId
+        {
+            get => HttpContext.GetMultiTenantContext<TenantInfo>()?.TenantInfo?.Identifier;
+        }
         public void OnGet()
         {
         }

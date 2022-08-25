@@ -26,6 +26,14 @@ namespace idpMultiTenant1.Models
     public class ApplicationUser : IdentityUser
     {
         /// <summary>
+        /// Initializes a new instance of the <see cref="ApplicationUser"/> class.
+        /// </summary>
+        /// <remarks>The Id property is initialized to form a new GUID string value.</remarks>
+        public ApplicationUser()
+        {
+        }
+
+        /// <summary>
         /// Gets or sets the tenant identifier.
         /// </summary>
         /// <value>The tenant identifier.</value>

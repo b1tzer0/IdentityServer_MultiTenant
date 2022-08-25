@@ -9,7 +9,7 @@ using System.Text;
 
 namespace idpMultiTenant1.FIDO2
 {
-    [Route("api/[controller]")]
+    [Route("{__tenant__=}/api/[controller]")]
     public class MfaFido2RegisterController : Controller
     {
         private readonly Fido2 _lib;
@@ -43,7 +43,7 @@ namespace idpMultiTenant1.FIDO2
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("/mfamakeCredentialOptions")]
+        [Route("mfamakeCredentialOptions")]
         public async Task<JsonResult> MakeCredentialOptions([FromForm] string username, [FromForm] string displayName, [FromForm] string attType, [FromForm] string authType, [FromForm] bool requireResidentKey, [FromForm] string userVerification)
         {
             try
@@ -104,7 +104,7 @@ namespace idpMultiTenant1.FIDO2
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("/mfamakeCredential")]
+        [Route("mfamakeCredential")]
         public async Task<JsonResult> MakeCredential([FromBody] AuthenticatorAttestationRawResponse attestationResponse)
         {
             try

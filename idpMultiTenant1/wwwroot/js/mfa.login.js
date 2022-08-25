@@ -19,7 +19,7 @@ async function handleSignInSubmit(event) {
     // send to server for registering
     let makeAssertionOptions;
     try {
-        var res = await fetch('/mfaassertionOptions', {
+        var res = await fetch(`/${tenantId.value}/api/MfaFido2SignInFido/mfaassertionOptions`, {
             method: 'POST', // or 'PUT'
             body: formData, // data can be `string` or {object}!
             headers: {
@@ -56,7 +56,7 @@ async function handleSignInSubmit(event) {
     //console.log("Assertion options", makeAssertionOptions);
 
     const fido2TapKeyToLogin = document.getElementById('fido2TapKeyToLogin').innerText;
-    document.getElementById('fido2logindisplay').innerHTML += '<br><b>' + fido2TapKeyToLogin + '</b><img src = "/images/securitykey.svg" alt = "fido login" />';
+    document.getElementById('fido2logindisplay').innerHTML += `<br><b>${fido2TapKeyToLogin}</b><img src="/images/securitykey.svg" alt="fido login" />`;
 
     //Swal.fire({
     //    title: 'Logging In...',
@@ -110,7 +110,7 @@ async function verifyAssertionWithServer(assertedCredential) {
 
     let response;
     try {
-        let res = await fetch("/mfamakeAssertion", {
+        let res = await fetch(`/${tenantId.value}/api/MfaFido2SignInFido/mfamakeAssertion`, {
             method: 'POST', // or 'PUT'
             body: JSON.stringify(data), // data can be `string` or {object}!
             headers: {

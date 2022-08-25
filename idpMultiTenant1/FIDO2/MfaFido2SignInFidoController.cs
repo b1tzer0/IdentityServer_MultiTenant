@@ -8,7 +8,7 @@ using System.Text;
 
 namespace idpMultiTenant1.FIDO2
 {
-    [Route("api/[controller]")]
+    [Route("{__tenant__=}/api/[controller]")]
     public class MfaFido2SignInFidoController : Controller
     {
         private readonly Fido2 _lib;
@@ -41,7 +41,7 @@ namespace idpMultiTenant1.FIDO2
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("/mfaassertionOptions")]
+        [Route("mfaassertionOptions")]
         public async Task<ActionResult> AssertionOptionsPost([FromForm] string username, [FromForm] string userVerification)
         {
             try
@@ -98,7 +98,7 @@ namespace idpMultiTenant1.FIDO2
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Route("/mfamakeAssertion")]
+        [Route("mfamakeAssertion")]
         public async Task<JsonResult> MakeAssertion([FromBody] AuthenticatorAssertionRawResponse clientResponse)
         {
             try

@@ -4,6 +4,8 @@ async function handleRegisterSubmit(event) {
     event.preventDefault();
 
     let username = this.username.value;
+    let tenantId = this.tenantId.value;
+
     //let displayName = this.displayName.value;
     // passwordfield is omitted in demo
     // let password = this.password.value;
@@ -100,7 +102,7 @@ async function handleRegisterSubmit(event) {
 }
 
 async function fetchMakeCredentialOptions(formData) {
-    let response = await fetch('/mfamakeCredentialOptions', {
+    let response = await fetch(`/${tenantId.value}/api/MfaFido2Register/mfamakeCredentialOptions`, {
         method: 'POST', // or 'PUT'
         body: formData, // data can be `string` or {object}!
         headers: {
@@ -158,11 +160,11 @@ async function registerNewCredential(newCredential) {
     });
 
     // possible values: true,false
-    window.location.href = "/Identity/Account/Manage/GenerateRecoveryCodes";
+    window.location.href = `/Identity/Account/Manage/GenerateRecoveryCodes`;
 }
 
 async function registerCredentialWithServer(formData) {
-    let response = await fetch('/mfamakeCredential', {
+    let response = await fetch(`/${tenantId.value}/api/MfaFido2Register/mfamakeCredential`, {
         method: 'POST', // or 'PUT'
         body: JSON.stringify(formData), // data can be `string` or {object}!
         headers: {

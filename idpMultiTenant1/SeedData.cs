@@ -1,6 +1,7 @@
 ﻿using Duende.IdentityServer.EntityFramework.DbContexts;
 using Duende.IdentityServer.EntityFramework.Mappers;
 using Duende.IdentityServer.Models;
+using Finbuckle.MultiTenant;
 using IdentityModel;
 using idpMultiTenant1.Data;
 using idpMultiTenant1.Models;
@@ -15,86 +16,109 @@ namespace idpMultiTenant1
     {
         public static void EnsureSeedData(WebApplication app)
         {
-            using (var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            foreach (var tenant in app.Services.GetRequiredService<IMultiTenantStore<TenantInfo>>()
+                .GetAllAsync().Result)
             {
-                var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
-                Log.Debug("Migrating AspNetIdentity...");
-                context.Database.Migrate();
-
-                Log.Debug("Seeding users...");
-                var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-                var alice = userMgr.FindByNameAsync("alice").Result;
-                if (alice == null)
+                using(var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
-                    alice = new ApplicationUser
+                    var multiTenantContextAccessor = scope.ServiceProvider
+                            .GetRequiredService<IMultiTenantContextAccessor<TenantInfo>>();
+                    
+                    multiTenantContextAccessor.MultiTenantContext = new MultiTenantContext<TenantInfo>
                     {
-                        UserName = "alice",
-                        Email = "AliceSmith@email.com",
-                        EmailConfirmed = true,
+                        TenantInfo = tenant
                     };
-                    var result = userMgr.CreateAsync(alice, "Pass123$").Result;
-                    if (!result.Succeeded)
+
+                    Log.Debug($"Tenant: {tenant.Name}, {tenant.Identifier}, {tenant.Id}");
+                    
+                    var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
+                    Log.Debug("Migrating AspNetIdentity...");
+                    context.Database.EnsureDeleted();
+                    context.Database.Migrate();
+
+                    Log.Debug("Seeding users...");
+                    var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+                    var alice = userMgr.FindByNameAsync("alice").Result;
+                    if(alice == null)
                     {
-                        throw new Exception(result.Errors.First().Description);
+                        alice = new ApplicationUser
+                        {
+                            UserName = "alice",
+                            Email = "AliceSmith@email.com",
+                            EmailConfirmed = true,
+                        };
+                        var result = userMgr.CreateAsync(alice, "Pass123$").Result;
+                        if(!result.Succeeded)
+                        {
+                            throw new Exception(result.Errors.First().Description);
+                        }
+
+                        result = userMgr.AddClaimsAsync(
+                            alice,
+                            new Claim[]
+                            {
+                                new Claim(JwtClaimTypes.Name, "Alice Smith"),
+                                new Claim(JwtClaimTypes.GivenName, "Alice"),
+                                new Claim(JwtClaimTypes.FamilyName, "Smith"),
+                                new Claim(JwtClaimTypes.WebSite, "http://alice.com"),
+                            })
+                            .Result;
+                        if(!result.Succeeded)
+                        {
+                            throw new Exception(result.Errors.First().Description);
+                        }
+                        Log.Debug("alice created");
+                    } else
+                    {
+                        Log.Debug("alice already exists");
                     }
 
-                    result = userMgr.AddClaimsAsync(alice, new Claim[]{
-                            new Claim(JwtClaimTypes.Name, "Alice Smith"),
-                            new Claim(JwtClaimTypes.GivenName, "Alice"),
-                            new Claim(JwtClaimTypes.FamilyName, "Smith"),
-                            new Claim(JwtClaimTypes.WebSite, "http://alice.com"),
-                        }).Result;
-                    if (!result.Succeeded)
+                    var bob = userMgr.FindByNameAsync("bob").Result;
+                    if(bob == null)
                     {
-                        throw new Exception(result.Errors.First().Description);
+                        bob = new ApplicationUser
+                        {
+                            UserName = "bob",
+                            Email = "BobSmith@email.com",
+                            EmailConfirmed = true
+                        };
+                        var result = userMgr.CreateAsync(bob, "Pass123$").Result;
+                        if(!result.Succeeded)
+                        {
+                            throw new Exception(result.Errors.First().Description);
+                        }
+
+                        result = userMgr.AddClaimsAsync(
+                            bob,
+                            new Claim[]
+                            {
+                                new Claim(JwtClaimTypes.Name, "Bob Smith"),
+                                new Claim(JwtClaimTypes.GivenName, "Bob"),
+                                new Claim(JwtClaimTypes.FamilyName, "Smith"),
+                                new Claim(JwtClaimTypes.WebSite, "http://bob.com"),
+                                new Claim("location", "somewhere")
+                            })
+                            .Result;
+                        if(!result.Succeeded)
+                        {
+                            throw new Exception(result.Errors.First().Description);
+                        }
+                        Log.Debug("bob created");
+                    } else
+                    {
+                        Log.Debug("bob already exists");
                     }
-                    Log.Debug("alice created");
-                }
-                else
-                {
-                    Log.Debug("alice already exists");
-                }
 
-                var bob = userMgr.FindByNameAsync("bob").Result;
-                if (bob == null)
-                {
-                    bob = new ApplicationUser
-                    {
-                        UserName = "bob",
-                        Email = "BobSmith@email.com",
-                        EmailConfirmed = true
-                    };
-                    var result = userMgr.CreateAsync(bob, "Pass123$").Result;
-                    if (!result.Succeeded)
-                    {
-                        throw new Exception(result.Errors.First().Description);
-                    }
+                    Log.Debug("Migrating PersistedGrantDbContext...");
+                    scope.ServiceProvider.GetService<PersistedGrantDbContext>().Database.Migrate();
 
-                    result = userMgr.AddClaimsAsync(bob, new Claim[]{
-                            new Claim(JwtClaimTypes.Name, "Bob Smith"),
-                            new Claim(JwtClaimTypes.GivenName, "Bob"),
-                            new Claim(JwtClaimTypes.FamilyName, "Smith"),
-                            new Claim(JwtClaimTypes.WebSite, "http://bob.com"),
-                            new Claim("location", "somewhere")
-                        }).Result;
-                    if (!result.Succeeded)
-                    {
-                        throw new Exception(result.Errors.First().Description);
-                    }
-                    Log.Debug("bob created");
+                    Log.Debug("Migrating ConfigurationDbContext...");
+                    //var configurationDbContext =
+                    //        scope.ServiceProvider.GetRequiredService<MultiTenantConfigurationDbContext>();
+                    var configurationDbContext = scope.ServiceProvider.GetService<ConfigurationDbContext>();
+                    configurationDbContext.Database.Migrate();
+                    EnsureSeedData(configurationDbContext);
                 }
-                else
-                {
-                    Log.Debug("bob already exists");
-                }
-
-                Log.Debug("Migrating PersistedGrantDbContext...");
-                scope.ServiceProvider.GetService<PersistedGrantDbContext>().Database.Migrate();
-
-                Log.Debug("Migrating ConfigurationDbContext...");
-                var configContext = scope.ServiceProvider.GetService<ConfigurationDbContext>();
-                configContext.Database.Migrate();
-                EnsureSeedData(configContext);
             }
         }
 

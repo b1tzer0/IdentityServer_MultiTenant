@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Finbuckle.MultiTenant;
 
 namespace idpMultiTenant1.Areas.Identity.Pages.Account
 {
@@ -30,6 +31,11 @@ namespace idpMultiTenant1.Areas.Identity.Pages.Account
         public bool RememberMe { get; set; }
 
         public string ReturnUrl { get; set; }
+
+        public string TenantId
+        {
+            get => HttpContext.GetMultiTenantContext<TenantInfo>()?.TenantInfo?.Identifier;
+        }
 
         public class InputModel
         {
