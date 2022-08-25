@@ -148,7 +148,7 @@ async function verifyAssertionWithServer(assertedCredential) {
     //});
     let fido2ReturnUrl = document.getElementById('fido2ReturnUrl').value;
     if (!fido2ReturnUrl) {
-        fido2ReturnUrl = "/";
+        fido2ReturnUrl = `/${tenantId.value}`;
     }
     window.location.href = fido2ReturnUrl;
 }
