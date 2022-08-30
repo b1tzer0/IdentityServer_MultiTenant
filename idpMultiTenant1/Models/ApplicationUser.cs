@@ -30,11 +30,5 @@ namespace idpMultiTenant1.Models
         /// </summary>
         /// <value>The last login date.</value>
         public DateTimeOffset LastLoginDate { get; set; }
-
-        /// <summary>
-        /// Gets or sets the fido stored credential.
-        /// </summary>
-        /// <value>The fido stored credential.</value>
-        public FidoStoredCredential FidoStoredCredential { get; set; }
     }
 }

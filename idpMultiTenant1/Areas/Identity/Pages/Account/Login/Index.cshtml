@@ -1,5 +1,5 @@
 @page
-@model             idpMultiTenant1.Areas.Identity.Pages.Account.Login.Index
+@model idpMultiTenant1.Areas.Identity.Pages.Account.Login.Index
 
 <div class="page">
     <partial name="_ValidationSummary" />
@@ -49,7 +49,11 @@
                                 </div>
                             </div>
                         </form>
-                        @if (Model.View.VisibleExternalProviders.Any())
+                        <div class="form-group">
+                            <span>Don't have an account?</span>
+                            <a asp-area="Identity" asp-page="/Account/Register" asp-route-returnUrl="@Model.Input.ReturnUrl" >Register</a>
+                        </div>
+                        @*@if (Model.View.VisibleExternalProviders.Any())
                         {
                             <hr />
                             <ul class="list-inline">
@@ -65,7 +69,7 @@
                                     </li>
                                 }
                             </ul>
-                        }
+                        }*@
                     </div>
                 </div>
             </div>

@@ -4,18 +4,33 @@
     ViewData["Title"] = "Log out";
 }
 
-<header>
-    <h1>@ViewData["Title"]</h1>
+<div class="page">
+    <div class="row">
     @{
         if (User.Identity.IsAuthenticated)
         {
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
-                <button type="submit" class="nav-link btn btn-link text-dark">Click here to Logout</button>
-            </form>
+            <div class="col-md-12 col-lg-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Sign Out Of All Devices</h2>
+                    </div>
+                    <div class="card-body">
+                        <form class="form" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post">
+                            <div class="form-group">
+                                <label>Are you sure you want to sign out of all devices?</label>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-lg">Sign Out</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         }
         else
         {
             <p>You have successfully logged out of the application.</p>
         }
     }
-</header>
+    </div>
+</div>

@@ -55,6 +55,9 @@
   -webkit-border-radius: 0.2rem;
   border-radius: 0.2rem;
 }
+.page .card .card-header {
+  text-align: center;
+}
 .page .row {
   -webkit-justify-content: center;
   justify-content: center;

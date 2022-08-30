@@ -1,4 +1,5 @@
 using Finbuckle.MultiTenant;
+using Finbuckle.Utilities.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
 using System.IdentityModel.Tokens.Jwt;
 using WebClient;
@@ -14,6 +15,8 @@ builder.Services
         {
             options.Conventions.Add(new MultiTenantPageRouteModelConvention());
         });
+
+builder.Services.DecorateService<LinkGenerator, AmbientValueLinkGenerator>(new List<string> { "__tenant__" });
 
 JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 

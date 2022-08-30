@@ -25,12 +25,6 @@ namespace idpMultiTenant1.FIDO2
         public virtual string UserName { get; set; }
 
         /// <summary>
-        /// Gets or sets the user.
-        /// </summary>
-        /// <value>The user.</value>
-        public ApplicationUser User { get; set; }
-
-        /// <summary>
         /// Gets or sets the user identifier.
         /// </summary>
         /// <value>The user identifier.</value>

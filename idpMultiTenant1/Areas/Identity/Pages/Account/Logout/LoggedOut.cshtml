@@ -2,19 +2,28 @@
 @using idpMultiTenant1.Areas.Identity.Pages.Account.Logout
 @model LoggedOut
 
-<div class="logged-out-page">
-    <h1>
-        Logout
-        <small>You are now logged out</small>
-    </h1>
+<div class="page">
+    <div class="row">
+        <div class="col-md-12 col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h2>Logged Out</h2>
+                </div>
+                <div class="card-body">
+                    You are now logged out. <br/>
+                    Please close your browser tab or window to complete the logout process.
 
-    @if (Model.View.PostLogoutRedirectUri != null)
-    {
-        <div>
-            Click <a class="PostLogoutRedirectUri" href="@Model.View.PostLogoutRedirectUri">here</a> to return to the
-            <span>@Model.View.ClientName</span> application.
+                    @if (Model.View.PostLogoutRedirectUri != null)
+                    {
+                        <div>
+                            Click <a class="PostLogoutRedirectUri" href="@Model.View.PostLogoutRedirectUri">here</a> to return to the
+                            <span>@Model.View.ClientName</span> application.
+                        </div>
+                    }
+                </div>
+            </div>
         </div>
-    }
+    </div>
 
     @if (Model.View.SignOutIframeUrl != null)
     {

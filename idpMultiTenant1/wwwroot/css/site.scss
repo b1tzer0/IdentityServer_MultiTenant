@@ -62,6 +62,10 @@
         -moz-border-radius: $border-radius-sm;
         -webkit-border-radius: $border-radius-sm;
         border-radius: $border-radius-sm;
+
+        & .card-header{
+            text-align:center;
+        }
     }
 
     & .row {
