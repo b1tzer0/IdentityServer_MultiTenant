@@ -1,18 +1,4 @@
-﻿// ***********************************************************************
-// Assembly         : idpMultiTenant1
-// Author           : Rick Mathers
-// Created          : 08-17-2022
-//
-// Last Modified By : Rick Mathers
-// Last Modified On : 08-17-2022
-// ***********************************************************************
-// <copyright file="ApplicationUser.cs" company="Megasys Hospitality Solutions">
-//     Copyright (c) Megasys Hospitality Solutions. All rights reserved.
-// </copyright>
-// <summary></summary>
-// ***********************************************************************
-
-
+﻿using idpMultiTenant1.FIDO2;
 using Microsoft.AspNetCore.Identity;
 
 namespace idpMultiTenant1.Models
@@ -44,5 +30,11 @@ namespace idpMultiTenant1.Models
         /// </summary>
         /// <value>The last login date.</value>
         public DateTimeOffset LastLoginDate { get; set; }
+
+        /// <summary>
+        /// Gets or sets the fido stored credential.
+        /// </summary>
+        /// <value>The fido stored credential.</value>
+        public FidoStoredCredential FidoStoredCredential { get; set; }
     }
 }

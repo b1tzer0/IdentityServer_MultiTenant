@@ -64,7 +64,7 @@ namespace idpMultiTenant1.Data.Migrations.Application
 
                     b.HasKey("Id");
 
-                    b.ToTable("FidoStoredCredentials");
+                    b.ToTable("FidoStoredCredentials", (string)null);
 
                     b.HasAnnotation("Finbuckle:MultiTenant", true);
                 });

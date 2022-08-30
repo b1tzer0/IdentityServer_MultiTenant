@@ -11,6 +11,7 @@ using idpMultiTenant1.Models;
 using idpMultiTenant1.Providers;
 using idpMultiTenant1.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -39,21 +40,10 @@ namespace idpMultiTenant1
             builder.Services.AddRazorPages()
                 .AddRazorPagesOptions(options =>
             {
-                options.Conventions.Add(new MultiTenantPageRouteModelConvention());
-
-                // Since we are using the route multitenant strategy we must add the
-                // route parameter to the Pages conventions used by Identity.
-                //options.Conventions.AddAreaFolderRouteModelConvention("Identity", "/Account", model =>
-                //{
-                //    foreach (var selector in model.Selectors)
-                //    {
-                //        selector.AttributeRouteModel.Template =
-                //            AttributeRouteModel.CombineTemplates("{__tenant__}", selector.AttributeRouteModel.Template);
-                //    }
-                //});
+                //options.Conventions.Add(new MultiTenantPageRouteModelConvention());
             });
 
-            builder.Services.DecorateService<LinkGenerator, AmbientValueLinkGenerator>(new List<string> { "__tenant__" });
+            //builder.Services.DecorateService<LinkGenerator, AmbientValueLinkGenerator>(new List<string> { "__tenant__" });
 
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
             
@@ -78,6 +68,8 @@ namespace idpMultiTenant1
                         options.Events.RaiseSuccessEvents = true;
                         //options.UserInteraction.LoginUrl = "/__tenant__/Identity/Account/Login/Index";
                         //options.UserInteraction.LogoutUrl = "/__tenant__/Identity/Account/Logout";
+                        options.UserInteraction.LoginUrl = "/Identity/Account/Login/Index";
+                        options.UserInteraction.LogoutUrl = "/Identity/Account/Logout";
 
                         // see https://docs.duendesoftware.com/identityserver/v6/fundamentals/resources/
                         options.EmitStaticAudienceClaim = true;
@@ -121,19 +113,31 @@ namespace idpMultiTenant1
                 .AddAspNetIdentity<ApplicationUser>()
                 .AddProfileService<NovacProfileService>();
 
-            //builder.Services.ConfigureApplicationCookie(options =>
-            //{
-            //    options.LoginPath = "/__tenant__/Identity/Account/Login/Index";
-            //    options.LogoutPath = "/__tenant__/Identity/Account/Logout";
-            //    options.AccessDeniedPath = "/__tenant__/Identity/Error";
-            //});
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                //options.LoginPath = "/__tenant__/Identity/Account/Login/Index";
+                //options.LogoutPath = "/__tenant__/Identity/Account/Logout";
+                //options.AccessDeniedPath = "/__tenant__/Identity/Error";
+                options.LoginPath = "/Identity/Account/Login/Index";
+                options.LogoutPath = "/Identity/Account/Logout";
+                options.AccessDeniedPath = "/Identity/Error";
+            });
 
-            builder.Services.AddMultiTenant<TenantInfo>()
+            builder.Services
+                .AddMultiTenant<TenantInfo>()
                 .WithConfigurationStore()
-                .WithRouteStrategy()
+                //.WithRouteStrategy()
+                .WithBasePathStrategy(
+                    ctx =>
+                    {
+                        ctx.RebaseAspNetCorePathBase = true;
+                    })
                 .WithPerTenantAuthentication();
 
             builder.Services.AddAuthentication();
+
+            builder.Services.AddTransient<IEmailSender, EmailSender>();
+            builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration.GetSection("SendGrid"));
 
             return builder.Build();
         }
@@ -149,6 +153,7 @@ namespace idpMultiTenant1
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseMultiTenant();
             //app.Use(async (context, next) =>
             //{
             //    var mtc = context.GetMultiTenantContext<TenantInfo>();
@@ -166,7 +171,6 @@ namespace idpMultiTenant1
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
-            app.UseMultiTenant();
             app.UseIdentityServer();
             app.UseAuthorization();
             app.UseSession();

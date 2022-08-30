@@ -47,7 +47,7 @@
   box-shadow: 0 1.6px 3.6px 0 rgba(0, 0, 0, 0.132), 0 0.3px 0.9px 0 rgba(0, 0, 0, 0.108);
 }
 
-.login-page .card {
+.page .card {
   -moz-box-shadow: 0 6.4px 14.4px 0 rgba(0, 0, 0, 0.132), 0 1.2px 3.6px 0 rgba(0, 0, 0, 0.108);
   -webkit-box-shadow: 0 6.4px 14.4px 0 rgba(0, 0, 0, 0.132), 0 1.2px 3.6px 0 rgba(0, 0, 0, 0.108);
   box-shadow: 0 6.4px 14.4px 0 rgba(0, 0, 0, 0.132), 0 1.2px 3.6px 0 rgba(0, 0, 0, 0.108);
@@ -55,25 +55,25 @@
   -webkit-border-radius: 0.2rem;
   border-radius: 0.2rem;
 }
-.login-page .row {
+.page .row {
   -webkit-justify-content: center;
   justify-content: center;
 }
-.login-page .action-links-container {
+.page .action-links-container {
   display: flex;
   -webkit-justify-content: space-between;
   justify-content: space-between;
 }
-.login-page .action-buttons-container {
+.page .action-buttons-container {
   display: flex;
 }
-.login-page .action-buttons-container .action-buttons {
+.page .action-buttons-container .action-buttons {
   -ms-flex: 0 1 auto;
   -webkit-flex: 0 1 auto;
   flex: 0 1 auto;
   width: 100%;
 }
-.login-page .action-buttons-container .action-buttons button {
+.page .action-buttons-container .action-buttons button {
   width: 100%;
   margin-bottom: 10px;
 }

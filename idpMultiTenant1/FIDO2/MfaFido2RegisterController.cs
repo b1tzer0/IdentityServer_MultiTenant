@@ -9,7 +9,8 @@ using System.Text;
 
 namespace idpMultiTenant1.FIDO2
 {
-    [Route("{__tenant__=}/api/[controller]")]
+    //[Route("{__tenant__=}/api/[controller]")]
+    [Route("api/[controller]")]
     public class MfaFido2RegisterController : Controller
     {
         private readonly Fido2 _lib;

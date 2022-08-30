@@ -160,7 +160,7 @@ async function registerNewCredential(newCredential) {
     });
 
     // possible values: true,false
-    window.location.href = `/Identity/Account/Manage/GenerateRecoveryCodes`;
+    window.location.href = `/${tenantId.value}/Identity/Account/Manage/GenerateRecoveryCodes`;
 }
 
 async function registerCredentialWithServer(formData) {

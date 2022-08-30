@@ -1,17 +1,5 @@
-﻿// ***********************************************************************
-// Assembly         : idpMultiTenant1
-// Author           : Rick Mathers
-// Created          : 08-17-2022
-//
-// Last Modified By : Rick Mathers
-// Last Modified On : 08-17-2022
-// ***********************************************************************
-// <copyright file="FidoStoredCredentials.cs" company="Megasys Hospitality Solutions">
-//     Copyright (c) Megasys Hospitality Solutions. All rights reserved.
-// </copyright>
-// <summary></summary>
-// ***********************************************************************
-using Fido2NetLib.Objects;
+﻿using Fido2NetLib.Objects;
+using idpMultiTenant1.Models;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json;
@@ -35,6 +23,12 @@ namespace idpMultiTenant1.FIDO2
         /// </summary>
         /// <value>The name of the user.</value>
         public virtual string UserName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user.
+        /// </summary>
+        /// <value>The user.</value>
+        public ApplicationUser User { get; set; }
 
         /// <summary>
         /// Gets or sets the user identifier.

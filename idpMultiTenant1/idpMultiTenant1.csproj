@@ -3,6 +3,7 @@
   <PropertyGroup>
 	  <TargetFramework>net6.0</TargetFramework>
 	  <ImplicitUsings>enable</ImplicitUsings>
+	  <UserSecretsId>b9432dac-dcdb-47fd-95aa-7580f26ec56a</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,6 +25,8 @@
 	<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.8" />
 
 	<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.8" />
+
+	<PackageReference Include="SendGrid" Version="9.28.1" />
 	<PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
 
 	<PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.8" />

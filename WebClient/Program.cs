@@ -1,10 +1,20 @@
+using Finbuckle.MultiTenant;
 using Microsoft.AspNetCore.Authentication;
 using System.IdentityModel.Tokens.Jwt;
+using WebClient;
+using WebClient.Providers;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services
+    .AddRazorPages()
+    .AddRazorPagesOptions(
+        options =>
+        {
+            options.Conventions.Add(new MultiTenantPageRouteModelConvention());
+        });
+
 JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
 builder.Services.AddAuthentication(options =>
@@ -15,7 +25,7 @@ builder.Services.AddAuthentication(options =>
     .AddCookie("Cookies")
     .AddOpenIdConnect("oidc", options =>
     {
-        options.Authority = "https://localhost:5001";
+        options.Authority = "https://localhost:5001/";
 
         options.ClientId = "interactive";
         options.ClientSecret = "49C1A7E1-0C79-4A89-A3D6-A37998FB86B0";
@@ -24,18 +34,21 @@ builder.Services.AddAuthentication(options =>
         options.Scope.Clear();
         options.Scope.Add("openid");
         options.Scope.Add("profile");
-        options.Scope.Add("tenant");
 
         options.SaveTokens = true;
         options.GetClaimsFromUserInfoEndpoint = true;
-        options.ClaimActions.MapUniqueJsonKey("tenant", "tenant");
-        options.Events.OnRedirectToIdentityProvider = ctx =>
-        {
-            //ctx.ProtocolMessage.AcrValues = $"idp:demoidsrv tenant:{ctx.Request.Host.Value}";
-            ctx.ProtocolMessage.AcrValues = $"tenant:{ctx.Request.Host.Value}";
-            return Task.FromResult(0);
-        };
+        //options.Events.OnRedirectToIdentityProvider = ctx =>
+        //{
+        //    //ctx.ProtocolMessage.AcrValues = $"idp:demoidsrv tenant:{ctx.Request.Host.Value}";
+        //    ctx.ProtocolMessage.AcrValues = $"tenant:tenant-1";
+        //    return Task.FromResult(0);
+        //};
     });
+
+builder.Services.AddMultiTenant<AppTenantInfo>()
+    .WithConfigurationStore()
+    .WithRouteStrategy()
+    .WithPerTenantAuthentication();
 
 var app = builder.Build();
 
@@ -51,10 +64,18 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+app.UseMultiTenant();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapRazorPages().RequireAuthorization();
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{__tenant__=}/{controller=Home}/{action=Index}/{id?}");
+
+    endpoints.MapRazorPages().RequireAuthorization();
+});
 
 app.Run();
