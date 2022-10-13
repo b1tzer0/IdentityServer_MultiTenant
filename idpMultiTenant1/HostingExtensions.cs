@@ -73,6 +73,8 @@ namespace idpMultiTenant1
 
                         // see https://docs.duendesoftware.com/identityserver/v6/fundamentals/resources/
                         options.EmitStaticAudienceClaim = true;
+
+                        options.Discovery.CustomEntries.Add("ManagementApi", "~/Management");
                     })
                 .AddConfigurationStore(
                     options =>
@@ -123,6 +125,8 @@ namespace idpMultiTenant1
                 options.AccessDeniedPath = "/Identity/Error";
             });
 
+            builder.Services.AddLocalApiAuthentication();
+            
             builder.Services
                 .AddMultiTenant<TenantInfo>()
                 .WithConfigurationStore()
