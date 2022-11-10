@@ -12,7 +12,6 @@ using System.Text.Encodings.Web;
 
 namespace idpMultiTenant1.Management
 {
-    //[Authorize]
     [Route("[controller]")]
     public class ManagementController : Controller
     {
@@ -61,6 +60,26 @@ namespace idpMultiTenant1.Management
                 ModelState.AddModelError(ex.HResult.ToString(), ex.Message);
                 return BadRequest(ModelState);
             }            
+        }
+
+        [HttpGet("User")]
+        public async Task<IActionResult> GetUser(string email)
+        {
+            try
+            {
+                var user = await userManager.FindByEmailAsync(email);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(user.Id);
+            }
+            catch (Exception ex)
+            {
+                ModelState.AddModelError(ex.HResult.ToString(), ex.Message);
+                return BadRequest(ModelState);
+            }
         }
     }
 }
