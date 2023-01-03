@@ -1,0 +1,42 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+using IdentityModel.Client;
+using IdentityModel.OidcClient.Browser;
+
+namespace MauiApp1
+{
+    public class MauiAuthenticationBrowser : IdentityModel.OidcClient.Browser.IBrowser
+    {
+        public async Task<BrowserResult> InvokeAsync(BrowserOptions options, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                WebAuthenticatorResult result = null;
+
+                result = await WebAuthenticator.Default.AuthenticateAsync(
+                                    new Uri(options.StartUrl),
+                                    new Uri(options.EndUrl));
+
+                var url = new RequestUrl("myapp://callback")
+                    .Create(new Parameters(result.Properties));
+
+                return new BrowserResult
+                {
+                    Response = url,
+                    ResultType = BrowserResultType.Success
+                };
+            }
+            catch (TaskCanceledException)
+            {
+                return new BrowserResult
+                {
+                    ResultType = BrowserResultType.UserCancel
+                };
+            }
+        }
+    }
+}

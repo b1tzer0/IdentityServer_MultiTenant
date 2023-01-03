@@ -60,6 +60,10 @@ namespace idpMultiTenant1
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             });
 
+#if DEBUG
+            var clients = Config.Clients;
+#endif
+
             builder.Services
                 .AddIdentityServer(
                     options =>

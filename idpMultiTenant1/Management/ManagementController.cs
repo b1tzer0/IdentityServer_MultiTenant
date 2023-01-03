@@ -31,7 +31,16 @@ namespace idpMultiTenant1.Management
             try
             {
                 var user = new ApplicationUser { UserName = email, Email = email };
-                var result = await userManager.CreateAsync(user, password);
+                IdentityResult result;
+                if (string.IsNullOrEmpty(password))
+                {
+                    result = await userManager.CreateAsync(user);
+                }
+                else
+                {
+                    result = await userManager.CreateAsync(user, password);
+                }
+
                 if (result.Succeeded)
                 {
                     var code = await userManager.GenerateEmailConfirmationTokenAsync(user);

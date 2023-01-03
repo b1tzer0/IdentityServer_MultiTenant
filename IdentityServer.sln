@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "idpMultiTenant1", "idpMulti
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EFTest", "EFTest\EFTest.csproj", "{A9961D7F-C3D3-4AE0-927F-BFC47335F0EA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MauiApp1", "MauiApp1\MauiApp1.csproj", "{EEEF8F5B-8B7E-4AE3-B059-FBF52AE9F159}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,12 @@ Global
 		{A9961D7F-C3D3-4AE0-927F-BFC47335F0EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A9961D7F-C3D3-4AE0-927F-BFC47335F0EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A9961D7F-C3D3-4AE0-927F-BFC47335F0EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEEF8F5B-8B7E-4AE3-B059-FBF52AE9F159}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EEEF8F5B-8B7E-4AE3-B059-FBF52AE9F159}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EEEF8F5B-8B7E-4AE3-B059-FBF52AE9F159}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{EEEF8F5B-8B7E-4AE3-B059-FBF52AE9F159}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EEEF8F5B-8B7E-4AE3-B059-FBF52AE9F159}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EEEF8F5B-8B7E-4AE3-B059-FBF52AE9F159}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
